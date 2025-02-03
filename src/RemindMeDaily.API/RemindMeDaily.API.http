@@ -1,0 +1,6 @@
+@RemindMeDaily.API_HostAddress = http://localhost:5100
+
+GET {{RemindMeDaily.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
