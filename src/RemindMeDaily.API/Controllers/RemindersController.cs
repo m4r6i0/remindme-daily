@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using RemindMeDaily.API.Services;
-using RemindMeDaily.API.Models.Request;
-using RemindMeDaily.API.Models.Response;
-using RemindMeDaily.API.Services.Interfaces;
+using RemindMeDaily.Domain.Models.Request;
+using RemindMeDaily.Domain.Models.Response;
+using RemindMeDaily.API.Interfaces;
+using RemindMeDaily.API.DTOs.Extensions;
 
 
 namespace RemindMeDaily.API.Controllers
@@ -41,7 +41,7 @@ namespace RemindMeDaily.API.Controllers
                 });
             }
 
-            var response = await _service.CreateReminderAsync(reminder);
+            var response = await _service.CreateReminderAsync(reminder.ToCreateReminderDTO());
             return Ok(response);
         }
 
@@ -68,7 +68,7 @@ namespace RemindMeDaily.API.Controllers
                 });
             }
 
-            var response = await _service.UpdateReminderAsync(reminder, id);
+            var response = await _service.UpdateReminderAsync(reminder.ToUpdateReminder(id));
             return Ok(response);
         }
 

@@ -1,9 +1,8 @@
-using RemindMeDaily.API.Models.Request;
-using RemindMeDaily.API.Models.Response;
-using RemindMeDaily.Domain.Entities;
-using RemindMeDaily.API.Services.Interfaces;
-using RemindMeDaily.Domain.Interfaces;
-using RemindMeDaily.API.Extensions;
+using RemindMeDaily.API.DTOs;
+using RemindMeDaily.API.DTOs.Extensions;
+using RemindMeDaily.API.Interfaces;
+using RemindMeDaily.Domain.Interfaces.Repository;
+using RemindMeDaily.Domain.Models.Response;
 
 namespace RemindMeDaily.API.Services
 {
@@ -24,12 +23,8 @@ namespace RemindMeDaily.API.Services
             if (reminders is null || !reminders.Any())
                 throw new KeyNotFoundException("Nenhum lembrete encontrado.");
 
-            return reminders.Select(r => new ReminderResponse
-            {
-                Title = r.Title,
-                Description = r.Description,
-                ReminderDate = r.ReminderDate?.ToShortDateString()
-            }).ToList();
+            return reminders.ToListReminderDTO()
+                            .ToListReminderResponse();
         }
 
         public async Task<ReminderResponse> GetReminderByIdAsync(int id)
@@ -39,36 +34,20 @@ namespace RemindMeDaily.API.Services
             if (reminder is null)
                 throw new KeyNotFoundException("Nenhum lembrete encontrado.");
 
-            return new ReminderResponse()
-            {
-                Title = reminder.Title,
-                Description = reminder.Description,
-                ReminderDate = reminder.ReminderDate?.ToFormattedString()
-            };
+            return reminder.ToReminderDTO()
+                           .ToReminderResponse();
         }
 
-        public async Task<ReminderResponse> CreateReminderAsync(ReminderRequest request)
+        public async Task<ReminderResponse> CreateReminderAsync(CreateReminderDTO createReminder)
         {
-            if (request is null)
+            if (createReminder is null)
                 throw new ArgumentException("O lembrete não pode ser nulo.");
-
-            var reminder = new Reminder
-            (
-                request.Title,
-                request.Description,
-                request.ReminderDate?.ToADateTime() ?? DateTime.MinValue
-            );
 
             try
             {
-                await _reminderRepository.AddAsync(reminder);
-
-                return new ReminderResponse
-                {
-                    Title = reminder.Title,
-                    Description = reminder.Description,
-                    ReminderDate = reminder.ReminderDate?.ToFormattedString(),
-                };
+                await _reminderRepository.AddAsync(createReminder.ToCreateReminder());
+                return createReminder.ToCreateReminder()
+                                     .ToCreateReminderResponse();
             }
             catch (Exception ex)
             {
@@ -76,39 +55,34 @@ namespace RemindMeDaily.API.Services
             }
         }
 
-        public async Task<ReminderResponse> UpdateReminderAsync(ReminderRequest request, int id)
+        public async Task<ReminderResponse> UpdateReminderAsync(UpdateReminderDTO updateReminder)
         {
 
-            if (request is null)
+            if (updateReminder is null)
                 throw new ArgumentException("O lembrete não pode ser nulo.");
 
-           if (id == 0)
+           if (updateReminder.Id == 0)
                 throw new ArgumentException("Informe o identificador do lembrete!");
 
-            var reminder = await _reminderRepository.GetByIdAsync(id);
+            var reminder = await _reminderRepository.GetByIdAsync(updateReminder.Id);
 
             if (reminder is null)
-                throw new KeyNotFoundException($"Nenhum lembrete encontrado com ID {id}.");
+                throw new KeyNotFoundException($"Nenhum lembrete encontrado com ID {updateReminder.Id}.");
 
 
-            reminder.Title = request.Title;
-            reminder.Description = request.Description;
-            reminder.ReminderDate = request.ReminderDate?.ToADateTime();
+            reminder.Title = updateReminder.Title;
+            reminder.Description = updateReminder.Description;
+            reminder.ReminderDate = updateReminder.ReminderDate;
 
             try
             {
                 await _reminderRepository.UpdateAsync(reminder);
 
-                return new ReminderResponse
-                {
-                    Title = reminder.Title,
-                    Description = reminder.Description,
-                    ReminderDate = reminder.ReminderDate?.ToFormattedString(),
-                };                
+                return reminder.ToCreateReminderResponse();
             }
             catch (Exception ex)
             {
-                throw new Exception($"Erro ao alterar o lembrete com ID {id}: {ex.Message}", ex);
+                throw new Exception($"Erro ao alterar o lembrete com ID {updateReminder.Id}: {ex.Message}", ex);
             }
         }
 

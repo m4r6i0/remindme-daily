@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RemindMeDaily.API.Models.Request;
+namespace RemindMeDaily.Domain.Models.Request;
 
 public class ReminderRequest
 {
@@ -10,4 +10,11 @@ public class ReminderRequest
     public string? Description { get; set; }
     [Required(ErrorMessage = "Data é obrigatório")]
     public string? ReminderDate { get; set; }
+
+    public ReminderRequest(string title, string description, string? reminderDate)
+    {
+        Title = title;
+        Description = description;
+        ReminderDate = reminderDate;
+    }
 }

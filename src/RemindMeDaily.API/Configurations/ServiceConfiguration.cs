@@ -1,11 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+using RemindMeDaily.Domain.Interfaces.Repository;
+using RemindMeDaily.API.Interfaces;
+using RemindMeDaily.API.Services;
 using RemindMeDaily.API.Data;
 using RemindMeDaily.API.Repositories;
-using RemindMeDaily.Domain.Interfaces;
-using RemindMeDaily.API.Services.Interfaces;
-using RemindMeDaily.API.Services;
 
 namespace RemindMeDaily.API.Configurations;
 

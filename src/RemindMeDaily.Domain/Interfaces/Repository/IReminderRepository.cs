@@ -1,8 +1,6 @@
 using RemindMeDaily.Domain.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace RemindMeDaily.Domain.Interfaces;
+namespace RemindMeDaily.Domain.Interfaces.Repository;
 
 public interface IReminderRepository
 {

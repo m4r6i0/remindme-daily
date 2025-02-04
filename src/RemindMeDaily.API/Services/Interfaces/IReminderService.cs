@@ -1,13 +1,13 @@
-using RemindMeDaily.API.Models.Request;
-using RemindMeDaily.API.Models.Response;
+using RemindMeDaily.API.DTOs;
+using RemindMeDaily.Domain.Models.Response;
 
-namespace RemindMeDaily.API.Services.Interfaces;
+namespace RemindMeDaily.API.Interfaces;
 
 public interface IReminderService
 {
     Task<List<ReminderResponse>> GetAllRemindersAsync();
     Task<ReminderResponse> GetReminderByIdAsync(int id);
-    Task<ReminderResponse> CreateReminderAsync(ReminderRequest reminder);
-    Task<ReminderResponse> UpdateReminderAsync(ReminderRequest request, int id);
+    Task<ReminderResponse> CreateReminderAsync(CreateReminderDTO createReminder);
+    Task<ReminderResponse> UpdateReminderAsync(UpdateReminderDTO updateReminder);
     Task DeleteReminderAsync(int id);
 }

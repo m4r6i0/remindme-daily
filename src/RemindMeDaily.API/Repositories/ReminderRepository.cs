@@ -1,6 +1,6 @@
 using RemindMeDaily.API.Data;
 using RemindMeDaily.Domain.Entities;
-using RemindMeDaily.Domain.Interfaces;
+using RemindMeDaily.Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
 

@@ -15,7 +15,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RemindMeDaily.Core\RemindMeDaily.Core.csproj" />
     <ProjectReference Include="..\RemindMeDaily.Domain\RemindMeDaily.Domain.csproj" />
   </ItemGroup>
 </Project>

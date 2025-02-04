@@ -1,9 +1,22 @@
-﻿namespace RemindMeDaily;
+﻿using RemindMeDaily.ViewModels;
 
-public partial class MainPage : ContentPage
+namespace RemindMeDaily.Pages
 {
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public partial class MainPage : ContentPage
+    {
+        private readonly RemindersViewModel _viewModel;
+
+        public MainPage(RemindersViewModel viewModel)
+        {
+            InitializeComponent();
+            _viewModel = viewModel;
+            BindingContext = _viewModel;
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await _viewModel.LoadRemindersAsync();
+        }
+    }
 }
