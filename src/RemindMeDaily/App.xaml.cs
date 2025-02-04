@@ -1,11 +1,11 @@
-﻿namespace RemindMeDaily;
+﻿using RemindMeDaily.Pages;
 
+namespace RemindMeDaily;
 public partial class App : Application
 {
-	public App()
+	public App(MainPage mainPage)
 	{
 		InitializeComponent();
-
-		MainPage = new MainPage();
+		MainPage = mainPage;
 	}
 }
